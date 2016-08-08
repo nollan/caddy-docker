@@ -33,4 +33,4 @@ CMD ["/usr/sbin/caddy", "--conf", "/etc/Caddyfile"]
 ## NOTES
 # Command line for exposing ports and to keep the Let's Encrypt certs
 # outside the container (to prevent regeneration each time it's started)
-# docker run -p80:80 -p443:443 -v $(pwd)/.caddy:/user/caddyuser/.caddy
+# docker run -p80:80 -p443:443 -v $(pwd)/.caddy:/home/caddyuser/.caddy
