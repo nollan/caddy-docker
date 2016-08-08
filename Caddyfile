@@ -1,0 +1,17 @@
+# Domain
+example.com
+
+# For Let's Encrypt
+tls yourname@example.com
+
+# Webpage location
+root /web
+
+# Compress just a bit
+gzip {
+    level 1
+}
+
+# Logs
+log stdout
+errors stdout
