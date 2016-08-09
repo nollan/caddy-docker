@@ -31,6 +31,9 @@ ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["/usr/sbin/caddy", "--conf", "/etc/Caddyfile"]
 
 ## NOTES
+# To make the ".caddy" directory (where certs are) not owned by root:
+# mkdir $(pwd)/.caddy
+#
 # Command line for exposing ports and to keep the Let's Encrypt certs
 # outside the container (to prevent regeneration each time it's started)
-# docker run -p80:80 -p443:443 -v $(pwd)/.caddy:/home/caddyuser/.caddy
+# docker run -d -p80:80 -p443:443 --restart=always -v $(pwd)/.caddy:/home/caddyuser/.caddy YourContainerWithContentAndProperCaddyConfig
