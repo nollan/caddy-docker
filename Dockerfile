@@ -14,7 +14,7 @@ ONBUILD RUN curl --silent --show-error --fail --location \
             && setcap cap_net_bind_service=+ep /usr/sbin/caddy \
             && chmod 0755 /usr/sbin/caddy \
             && /usr/sbin/caddy -version \
-            #&& mkdir /web \
+            && mkdir /web \
             && chmod 0755 /web
 
 ## Cleanup APK cache
