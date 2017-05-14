@@ -3,37 +3,19 @@ MAINTAINER patric@zro.se
 
 ## Update and install needed extras
 #RUN apk update && apk upgrade --no-cache --available
-RUN apk add --update tar curl musl tini libcap ca-certificates \
+RUN apk add --update tar curl musl tini libcap ca-certificates
 
 ## Install Caddy application and user
- && curl --silent --show-error --fail --location \
-      --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
-      "https://caddyserver.com/download/build?os=linux&arch=amd64&features=" \
-    | tar --no-same-owner -C /usr/sbin/ -xz caddy \
- && adduser -Du 1000 caddyuser \
- && setcap cap_net_bind_service=+ep /usr/sbin/caddy \
- && chmod 0755 /usr/sbin/caddy \
- && /usr/sbin/caddy -version \
- && mkdir /web \
- && chmod 0755 /web
+ONBUILD RUN curl --silent --show-error --fail --location \
+                 --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
+                 "https://caddyserver.com/download/linux/amd64" \
+                 | tar --no-same-owner -C /usr/sbin/ -xz caddy \
+            && adduser -Du 1000 caddyuser \
+            && setcap cap_net_bind_service=+ep /usr/sbin/caddy \
+            && chmod 0755 /usr/sbin/caddy \
+            && /usr/sbin/caddy -version \
+            #&& mkdir /web \
+            && chmod 0755 /web
 
-## Data
-VOLUME /web
-# Caddyfile is just an "example.com" domain, so it will not work
-COPY Caddyfile /etc/Caddyfile
-
-## Security
-USER caddyuser
-EXPOSE 80 443
-
-## Start
-ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["/usr/sbin/caddy", "--conf", "/etc/Caddyfile"]
-
-## NOTES
-# To make the ".caddy" directory (where certs are) not owned by root:
-# mkdir $(pwd)/.caddy
-#
-# Command line for exposing ports and to keep the Let's Encrypt certs
-# outside the container (to prevent regeneration each time it's started)
-# docker run -d -p80:80 -p443:443 --restart=always -v $(pwd)/.caddy:/home/caddyuser/.caddy YourContainerWithContentAndProperCaddyConfig
+## Cleanup APK cache
+RUN rm -rf /var/cache/apk/* && rm -rf /var/lib/apt/lists/*
