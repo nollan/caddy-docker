@@ -3,7 +3,8 @@ MAINTAINER patric@zro.se
 
 ## Update and install needed extras
 #RUN apk update && apk upgrade --no-cache --available
-RUN apk add --update tar curl musl tini libcap ca-certificates
+#RUN apk add --update tar curl musl tini libcap ca-certificates
+RUN apk add --no-cache tar curl musl tini libcap ca-certificates
 
 ## Install Caddy application and user
 ONBUILD RUN curl --silent --show-error --fail --location \
@@ -17,5 +18,8 @@ ONBUILD RUN curl --silent --show-error --fail --location \
             && mkdir /web \
             && chmod 0755 /web
 
+## Security
+RUN delgroup ping
+
 ## Cleanup APK cache
-RUN rm -rf /var/cache/apk/* && rm -rf /var/lib/apt/lists/*
+RUN rm -rf /var/cache/apk/ /var/lib/apt/lists/
