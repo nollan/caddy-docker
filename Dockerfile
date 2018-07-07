@@ -9,7 +9,7 @@ RUN apk add --no-cache tar curl musl tini libcap ca-certificates
 ## Install Caddy application and user
 ONBUILD RUN curl --silent --show-error --fail --location \
                  --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
-                 "https://caddyserver.com/download/linux/amd64" \
+                 "https://caddyserver.com/download/linux/amd64?license=personal&telemetry=off" \
                  | tar --no-same-owner -C /usr/sbin/ -xz caddy \
             && adduser -Du 1000 caddyuser \
             && setcap cap_net_bind_service=+ep /usr/sbin/caddy \
