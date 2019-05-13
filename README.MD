@@ -1,6 +1,6 @@
-#Caddy distroless#
+# Caddy distroless #
 
-##Example Dockerfile##
+## Example Dockerfile ##
 
 ``` dockerfile
 FROM nollan/caddy-distroless
@@ -22,7 +22,7 @@ ENTRYPOINT ["/caddy"]
 CMD ["--conf", "/etc/Caddyfile"]
 ```
 
-##Example Caddyfile##
+## Example Caddyfile ##
 
 ```
 ## Redirect from HTTP to HTTPS
