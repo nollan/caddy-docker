@@ -5,7 +5,7 @@
 ``` dockerfile
 FROM nollan/caddy-distroless
 
-LABEL maintainer="patric@zro.se"
+LABEL maintainer="yourname@example.com"
 
 # Webpage data location
 VOLUME /web
